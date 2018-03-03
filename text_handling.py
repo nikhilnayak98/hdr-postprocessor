@@ -183,7 +183,7 @@ def getkey():
     try:                            # Alas, the statistical likelihood is that this routine is being run under Windows, so try that first.
         import msvcrt
         return msvcrt.getch()       # This really needs to be actually tested under Windows.
-    except ImportError:             # Under any non-Windows OS. (I hope.)
+    except ImportError:             # Under any non-Windows OS.
         try:
             import tty, termios
             stdin_fd = sys.stdin.fileno()

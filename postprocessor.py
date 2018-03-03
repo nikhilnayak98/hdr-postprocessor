@@ -21,15 +21,7 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
-
-# The postprocessor.py script performs the kind of postprocessing work that
-# needs to happen when I move photos to my hard drive from one or more of my
-# cameras. It processes an entire directory at a time; just invoke it by typing
-# 
-#     ./postprocessor.py
-# 
-# while the directory that needs to be processed is the current working
-# directory.
+#
 # 
 # Currently, it performs the following tasks:
 #     1. Empties out the folder's .thumbnails directory if it has files, creates
@@ -44,9 +36,7 @@
 #     4. Auto-rotates all photos in the current directory by calling exiftran.
 #     5. If any .SH files are found in the directory being processed, it assumes
 #        they are Bash scripts that call enfuse, possibly preceded by a call to
-#        align_image_stack (and are the product of automatic exposure bracketing
-#        by Magic Lantern, which is the only way that .SH files ever wind up on
-#        my memory cards). It then re-writes them, makes them executable, and
+#        align_image_stack. It then re-writes them, makes them executable, and
 #        calls them to create those enfused pictures. If this script encounters
 #        any non-enfuse scripts, it will happily attempt to rewrite them anyway.
 # 
@@ -57,11 +47,7 @@
 #            * Extending the script by adding lines causing the script to take
 #              the TIFF output of the enfuse operation and re-encode it to HQ
 #              JPEG, then copying the EXIF metadata from the base (non-shifted)
-#              photo that begins the series into that resulting JPEG. (I take it
-#              that it's better to have SOME EXIF DATA than none; even if not
-#              quite all the metadata from the base photo applies, it's the
-#              closest available and is mostly a fair representation of the
-#              actual situation at the time.)
+#              photo that begins the series into that resulting JPEG.
 #            * Moving the shots that were components of HDR tonemaps into a
 #              separate HDR_components folder.
 # 
@@ -77,17 +63,13 @@
 # Currently, it depends (directly itself, or indirectly by virtue of the scripts
 # it writes) on these external programs:
 # 
-#     program             Debian package name     My version
-#     -------             -------------------     ----------
-#     align_image_stack   enfuse                  4.1.3+dfsg-2
-#     convert             imagemagick             8:6.8.9.9-5
-#     enfuse              enfuse                  4.1.3+dfsg-2
-#     exiftool            libimage-exiftool-perl  9.74-1
-#     exiftran            exiftran                2.09-1+b1
-
-# Other versions will often, though not necessarily always, work just fine.
-# YMMV. Remember that Ubuntu is not Debian and package names may be different.
-# Synaptic is your friend if you're having trouble finding things.
+#     program             Debian package name
+#     -------             -------------------
+#     align_image_stack   enfuse
+#     convert             imagemagick
+#     enfuse              enfuse
+#     exiftool            libimage-exiftool-perl
+#     exiftran            exiftran
 # 
 # This script can also be imported as a Python module (it requires Python 3); try
 # typing
@@ -183,7 +165,7 @@ def _decrement_timestamp(file_list):
 
 def spring_forward():
     # Adjust the EXIF timestamps on the batch of photos in this directory by
-    # adding one hour to them, as if I had forgotten to do this after the DST
+    # adding one hour to them, as if we had forgotten to do this after the DST
     # change. This function is NEVER called directly by the code itself and is not
     # available from the command line; it's a utility function available from the
     # Python interpreter after the script is imported.
@@ -196,7 +178,7 @@ def spring_forward():
 
 def fall_back():
     # Adjust the EXIF timestamps on the batch of photos in this directory by
-    # subtracting one hour from them, as if I had forgotten to do this after the DST
+    # subtracting one hour from them, as if we had forgotten to do this after the DST
     # change. This function is NEVER called directly by the code itself and is not
     # available from the command line; it's a utility function available from the
     # Python interpreter after the script is imported.
@@ -230,7 +212,7 @@ def empty_thumbnails():
 def delete_spurious_raw_files():
     # This function performs a few related cleanup tasks.
     # 
-    # First, it ensures that every raw file has a corresponding JPEG file. I only
+    # First, it ensures that every raw file has a corresponding JPEG file. we only
     # shoot raw photos in RAW+JPG mode, never raw-only, so any raw photos without
     # corresponding JPEGs indicate that the JPEG was deleted in an attempt to erase
     # "the photo." Since many quick viewers don't support raw at all, and "the photo"
@@ -241,12 +223,12 @@ def delete_spurious_raw_files():
     # raw_must_be_paired_with_JPEG to False.
     # 
     # Second, it removes raw files whose JPEG files have been resized to lower-
-    # resolution versions. I occasionally, through oversight or lack of time to make
+    # resolution versions. we occasionally, through oversight or lack of time to make
     # settings adjustments or after-the-fact reconsideration, wind up with raw photos
     # whose corresponding JPEG shots are destined to be resized to a lower resolution
     # because they only capture information and lack essentially all aesthetic merit.
     # Provided that the small JPEG adequately captures a legible version of that
-    # information, I'd rather recover the drive space used to store the superfluous
+    # information, we'd rather recover the drive space used to store the superfluous
     # raw file.
     # 
     # This second action can be turned off by setting the global variable

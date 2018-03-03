@@ -79,7 +79,7 @@ def name_from_date(which_file):
         except KeyError:
             try:
                 dt = tags['Image DateTime'].values
-            except KeyError:            # Sigh. Not all of my image-generating devices generate EXIF info in all circumstances.
+            except KeyError:            # Sigh. Not all of the image-generating devices generate EXIF info in all circumstances.
                 dt = which_file         # At this point, just guess based on filename.
         dt = ''.join([char for char in dt if char.isdigit()])
         if len(dt) < 8:     # then we got filename gibberish, not a meaningful date.
@@ -120,7 +120,7 @@ def list_of_raws():
 # have had. The intent is to make it possible to restore the original name of a
 # set of files after a series of filename changes. Doing this requires that all
 # filename changes are manually mapped through the routines in this class. I
-# find this helpful in my photo-postprocessing scripts, because I want to be able
+# find this helpful in the postprocessor scripts, because we want to be able
 # to restore the files' original names if necessary.
 
 
