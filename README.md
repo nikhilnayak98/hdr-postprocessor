@@ -11,7 +11,6 @@
     <tr><td>luminance-hdr</td></tr>
     <tr><td>imagemagick</td></tr>
     <tr><td>enfuse</td></tr>
-    <tr><td>hugin-tools</td></tr>
 </table>
 <code>[sudo] apt-get install [package name]</code>
 
